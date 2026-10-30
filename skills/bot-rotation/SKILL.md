@@ -1,0 +1,28 @@
+---
+name: bot-rotation
+description: Set up configurable recurring bot rotation or immediately rotate a selected member while preserving handover knowledge, worklogs, schedules, and member mappings.
+---
+
+# Bot Rotation
+
+Rotate a bot while preserving its logical member role and operational continuity. Use `bot-handover-doc` for durable knowledge and `bot-worklog` for generation records. If those skills are unavailable, use the equivalent fields and format in the repository templates. Use only capabilities actually supported by the host environment; never report an attempted operation as completed without verification.
+
+## First-time setup
+
+Ask the user for the rotation interval, timezone, first execution time, and covered members. Propose weekly as the default; do not hard-code it or treat silence as confirmation. Check existing configuration before asking again. Record the agreed settings in the durable handover or shared rotation configuration and create the recurring rotation schedule through the available scheduler. Verify its recurrence, timezone, target members, and enabled state. If scheduling is unavailable, report that setup remains incomplete and provide the required manual setup details.
+
+Support an immediate request such as `Rotate <member> now` without waiting for the recurring schedule. An immediate rotation does not change the configured cadence unless requested. Prevent overlapping scheduled and manual rotations for the same member by checking and recording an in-progress rotation state.
+
+## Rotation procedure
+
+1. **Read and reconcile.** Read the selected member's handover and latest worklog. Confirm the active generation through the member mapping. Refresh ongoing work and inventory every old task schedule, including timing, timezone, trigger, inputs, outputs, success criteria, enabled state, and last completed occurrence. Identify running tasks and settle or explicitly transfer their ownership before switching.
+2. **Check scope and authority.** Honor recorded permissions and existing user authorization. Obtain required approval for external messages, deletion, payments, or production writes when not already authorized. Bot creation and schedule changes must remain within the requested rotation scope. If a required capability or authorization is missing, record the pending step and avoid an ambiguous cutover.
+3. **Create the successor.** Create a new bot for the same logical member using supported tools. Keep the old bot available until continuity is verified. If creation is unavailable, prepare a complete creation brief and report the manual action needed; do not claim rotation succeeded.
+4. **Deliver the handover.** Give the successor the role card, routine schedule, resource map, dated rules register, authority boundaries, ongoing items, lessons learned, collaboration relationships, and previous worklog path. Include document references and access requirements, never secret values. Do not assume conversation history or access grants transfer automatically.
+5. **Initialize the successor.** Instruct it to read the handover and previous worklog, open a new generation worklog with `bot-worklog`, and confirm its next actions. If a saved avatar image exists and access and tools allow it, have the successor set its own avatar from that image. Bots usually cannot copy another bot's avatar. If no image or capability exists, record the limitation without blocking unrelated continuity work.
+6. **Rebuild and switch schedules.** Recreate task schedules for the successor, initially paused when supported. Preserve their task semantics, timezone, recurrence, inputs, outputs, success criteria, and intended enabled state. Verify the successor is ready, then pause old schedules and verify they are paused before enabling corresponding new schedules. Keep intentionally paused tasks paused. Reconcile missed or in-flight occurrences to prevent duplicate work. Transfer member-specific rotation triggers where needed; a shared coordinator's rotation schedule can remain in place. If safe staging is unsupported, pause old schedules before creating active replacements and record the service gap. On failure, leave only one verified owner; restore old scheduling only after confirming replacement schedules cannot also run.
+7. **Update the mapping.** Update the configured member ID mapping with logical member, previous bot reference, new bot reference, status, effective time, handover reference, and current worklog reference. Store runtime identifiers only in the user's operational mapping, never as embedded examples in this package. Mark the successor active only after the cutover is verified. Keep the prior mapping as history.
+8. **Prepare manual cleanup.** List the old bots for the user to delete manually, with their runtime references, replacement members, and verified schedule states. Bots usually cannot delete bots. Do not delete old bots as part of this workflow; make clear which remain available for recovery and which are ready for removal.
+9. **Report and close.** Report each member's outcome, old and new references, handover and worklog locations, schedule verification, avatar outcome, mapping update, next rotation time, manual deletion list, and unresolved items. Update the outgoing worklog's successor link and release the in-progress rotation state. Distinguish complete, partial, and failed steps. A failed or partial rotation must retain a clear owner and recovery action.
+
+Keep configuration and operational records in user-selected locations. Do not embed real company names, personal details, identifiers, account names, credentials, or environment-specific paths in reusable skill files or templates.
