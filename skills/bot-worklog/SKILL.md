@@ -7,6 +7,10 @@ description: Maintain Markdown worklogs for successive bot generations, includin
 
 Keep one Markdown file per bot generation under a user-selected worklog root, using `<member>/<member>_YYYYMMDD.md`. The date is the generation's start date in the agreed timezone. Append later daily entries to that file; do not create a new generation file every day.
 
+## Storage
+
+Local machine files can disappear, so keep the authoritative copy in durable cloud storage chosen by the user (e.g. a Google Drive folder with one subfolder per member), uploaded as plain Markdown. Sync after every update and verify; successors read the previous worklog from cloud storage. Never treat an unsynced log as saved.
+
 ## Starting a generation
 
 1. Read the durable handover and its referenced previous worklog before starting work. Follow continuity links or referenced artifacts when needed to understand unfinished work. If the predecessor record is missing, record the gap rather than fabricating history.
